@@ -3,41 +3,43 @@
  */
 (function(){
     //页面载入完毕后默认选项
-    $("#inputK").prop("checked",true);
-    $("#must").prop("checked",true);
-    $("#text").prop("checked",true);
+    function load(){
+        $("#inputK").prop("checked",true);
+        $("#must").prop("checked",true);
+        $("#text").prop("checked",true);
 
-    if($("#inputK").prop("checked")){
-        $("#selection").css("display","none");
-        $("#setLength").css("display","none");
-    }
-    //根据类型设置需要的配置选项
-    $("#inputK").click(function(){
-        $("#config").css("display","block");
-        $("#rule").css("display","block");
-        $("#selection").css("display","none");
-        $("#setLength").css("display","none");
-    });
-    $("#radioK,#checkboxK,#selectK").click(function(){
-        $("#config").css("display","block");
-        $("#rule").css("display","none");
-        $("#selection").css("display","block");
-        $("#setLength").css("display","none");
-    });
-    $("#textareaK").click(function(){
-        $("#config").css("display","block");
-        $("#rule").css("display","none");
-        $("#selection").css("display","none");
-        $("#setLength").css("display","block");
-    });
-    $("#rule .radio").on("click","input",function(){
-        if($(this).is("#password")){
-            $("#setLength").css("display","block");
-        }
-        else
+        if($("#inputK").prop("checked")){
+            $("#selection").css("display","none");
             $("#setLength").css("display","none");
-    })
-
+        }
+        //根据类型设置需要的配置选项
+        $("#inputK").click(function(){
+            $("#config").css("display","block");
+            $("#rule").css("display","block");
+            $("#selection").css("display","none");
+            $("#setLength").css("display","none");
+        });
+        $("#radioK,#checkboxK,#selectK").click(function(){
+            $("#config").css("display","block");
+            $("#rule").css("display","none");
+            $("#selection").css("display","block");
+            $("#setLength").css("display","none");
+        });
+        $("#textareaK").click(function(){
+            $("#config").css("display","block");
+            $("#rule").css("display","none");
+            $("#selection").css("display","none");
+            $("#setLength").css("display","block");
+        });
+        $("#rule .radio").on("click","input",function(){
+            if($(this).is("#password")){
+                $("#setLength").css("display","block");
+            }
+            else
+                $("#setLength").css("display","none");
+        })
+    }
+    load();
     //生成选项操作
     var valueArr = [];
     $("#setSelect").keyup(function(e){
@@ -81,38 +83,60 @@
             form.append("<h2>"+ $("#form-name-input").val() +"</h2>");
         }
         if($("#inputK").prop("checked")){
-            //$("#view-container form").html("<div class='form-group'><label for='inputEmail3' class='col-sm-2 control-label'>" + $("#form-name").val() + "</label><div class='col-sm-6'><input type='text' class='form-control' id='inputEmail3'></div></div>");
             form.append("<div class='form-group'></div>");
             var formGroup = $("#view-container form .form-group:last");
+            //添加其余节点
             formGroup.append("<lable class='control-label col-md-4'>"+inputName+"</lable>");
             formGroup.append("<div class='col-md-6'>" + "<input type=" + $("#rule input:checked").attr("alt") + " class='form-control' >" + "</div>");
-            //formGroup.append();
-            //var inputNode = $("#view-container form .form-group input");
             var inputNode = $("#view-container form .form-group:last input");
-            //inputNode.val("创建了一个输入框");
             delegateEvent(inputNode);
+            //绑定mouseenter和mouseleave事件
+            formGroup.mouseenter(function(){
+                addDeleteIcon(formGroup)
+            });
+            formGroup.mouseleave(function(){
+                removeDeleteIcon(formGroup)
+            });
         }
         else if($("#radioK").prop("checked")){
             form.append("<div class='radio-div'></div>");
             var radioDiv = $("form .radio-div:last");
             radioDiv.append("<lable class='control-label col-md-4'>"+inputName+"</lable>");
+            radioDiv.append("<div class='col-md-6'></div>");
+            var radioInnerDiv = radioDiv.children(".col-md-6");
             for(var i = 0;i < valueArr.length;i++)
             {
-                radioDiv.append("<label class='radio-inline'></label>");
+                radioInnerDiv.append("<label class='radio-inline'></label>");
                 var radio = $("form .radio-inline:last");
                 radio.append("<input type='radio' name=" + inputName + " value=" + valueArr[i] + ">" + valueArr[i]);
             }
+            //绑定mouseenter和mouseleave事件
+            radioDiv.mouseenter(function(){
+                addDeleteIcon(radioDiv)
+            });
+            radioDiv.mouseleave(function(){
+                removeDeleteIcon(radioDiv)
+            });
         }
         else if($("#checkboxK").prop("checked")){
             form.append("<div class='checkbox-div'></div>");
             var checkBoxDiv = $("form .checkbox-div:last");
             checkBoxDiv.append("<lable class='control-label col-md-4'>"+inputName+"</lable>");
+            checkBoxDiv.append("<div class='col-md-6'></div>");
+            var checkboxInnerDiv = checkBoxDiv.children(".col-md-6");
             for(var i = 0;i < valueArr.length;i++)
             {
-                checkBoxDiv.append("<label class='checkbox-inline'></label>");
+                checkboxInnerDiv.append("<label class='checkbox-inline'></label>");
                 var check = $("form .checkbox-inline:last");
                 check.append("<input type='checkbox' name=" + inputName + " value=" + valueArr[i] + ">" + valueArr[i]);
             }
+            //绑定mouseenter和mouseleave事件
+            checkBoxDiv.mouseenter(function(){
+                addDeleteIcon(checkBoxDiv)
+            });
+            checkBoxDiv.mouseleave(function(){
+                removeDeleteIcon(checkBoxDiv)
+            });
         }
         else if($("#selectK").prop("checked")){
             form.append("<div class='select-div'></div>");
@@ -124,6 +148,13 @@
             {
                 select.append("<option value="+ valueArr[i] +">" + valueArr[i] +"</option>");
             }
+            //绑定mouseenter和mouseleave事件
+            selectDiv.mouseenter(function(){
+                addDeleteIcon(selectDiv)
+            });
+            selectDiv.mouseleave(function(){
+                removeDeleteIcon(selectDiv)
+            });
         }
         else if($("#textareaK").prop("checked")){
             form.append("<div class='textarea-div'></div>");
@@ -146,19 +177,38 @@
                     textarea.next("span").remove();
                 });
             }
+            //绑定mouseenter和mouseleave事件
+            textareaDiv.mouseenter(function(){
+                addDeleteIcon(textareaDiv)
+            });
+            textareaDiv.mouseleave(function(){
+                removeDeleteIcon(textareaDiv)
+            });
         }
         $("#form-name-input").val("");
-        $("#view-container form .form-group,#view-container form .radio-div,#view-container form .checkbox-div,#view-container form .select-div,#view-container form .textarea-div").mouseenter(function(){
-            $(this).css("backgroundColor","#eee");
-            $(this).css("cursor","pointer");
-            $(this).append("<span class='glyphicon glyphicon-remove'></span>");
-        });
-        $("#view-container form .form-group,#view-container form .radio-div,#view-container form .checkbox-div,#view-container form .select-div,#view-container form .textarea-div").mouseleave(function(){
-            $(this).css("backgroundColor","#fff");
-            $(this).css("cursor","default");
-            $(this).children(".glyphicon-remove:last").remove();
-        });
+
+
     }
+    function addDeleteIcon(node){
+        var nodeHeight = parseInt(node.css("height"));
+        node.css("backgroundColor","#eee");
+        node.css("cursor","pointer");
+        node.append("<span class='delete'> 删除 </span>");
+        var deleteNode = $(".delete");
+        deleteNode.css("padding-top",(nodeHeight-20)/2 + "px");
+        node.on("click",".delete",function(){
+            console.log("点击了删除按钮!");
+            deleteNode.parent().slideUp(function(){
+                $(this).remove();
+            });
+        })
+    }
+    function removeDeleteIcon(node){
+        node.css("backgroundColor","#fff");
+        node.css("cursor","default");
+        node.children(".delete").remove();
+    }
+
 
     function isNecessary(){
         if($("#must").prop("checked")){
@@ -167,12 +217,7 @@
         else
             return false;
     }
-    //function delegateEvent(node){
-    //    if(isNecessary()){
-    //       showNecessary(node);
-    //    }
-    //
-    //}
+   
     function delegateEvent(node){
 
 
@@ -305,25 +350,19 @@
     $("#finished").click(function(){
         $(".modal-body").text($("#view-container .container").html());
         $("#view-container .container").append("<div class='col-md-4 col-md-offset-4'><button class='btn btn-success' id='createFormCode' data-toggle='modal' data-target='#dialog'>一键生成表单代码</button></div>");
+        $("#copy").tooltip();
     });
-    //$("#createFormCode").click(function(){
-    //    console.log("hello");
-    //   // console.log($("#view-container .container").html());
-    //});
-    //$("#view-container .container").delegate("#createFormCode","click",function(){
-    //    //console.log("hello");
-    //    console.log($("#view-container .container").html());
-    //})
+
     $(".modal-footer button:last").click(function(){
         copyCode();
     });
     function copyCode(){
+
         var obj = document.querySelector('.modal-body');
         var range = document.createRange();
         range.selectNode(obj);
         window.getSelection().addRange(range);
         try {
-            // Now that we've selected the anchor text, execute the copy command
             var successful = document.execCommand('copy');
             var msg = successful ? 'successful' : 'unsuccessful';
             console.log('Copy email command was ' + msg);
@@ -331,6 +370,7 @@
             console.log('Oops, unable to copy');
         }
         window.getSelection().removeAllRanges();
+
     }
 
 })();

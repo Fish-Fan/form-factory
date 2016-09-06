@@ -24,14 +24,27 @@
     margin-top: 10px;
 }
 .checkbox-div,.radio-div{
-    width: 100%;
+    width: auto;
     margin-bottom: 15px;
 }
 .select-div,.textarea-div{
     overflow: hidden;
     margin-bottom: 15px;
 }
+.checkbox-div,.radio-div,.select-div{
+    overflow: hidden;
+    margin-right: -15px;
+    margin-left: -15px;
+}
 #createFormCode{
     width: 300px;
     margin: 20px auto;
+}
+.radio-inline,.checkbox-inline{
+    vertical-align: baseline;
+}
+.delete{
+    display: inline-block;
+
+    font-size: 14px;
 }
