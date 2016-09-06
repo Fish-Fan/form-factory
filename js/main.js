@@ -39,40 +39,42 @@
                 $("#setLength").css("display","none");
         })
     }
-    load();
     //生成选项操作
     var valueArr = [];
-    $("#setSelect").keyup(function(e){
-        if(e.keyCode == 13){
-            var selectValue = $("#setSelect").val().trim();
-            var arr = selectValue.split(/[^0-9a-zA-Z\u4e00-\u9fa5]+/);
-            valueArr = valueArr.concat(arr);
-            console.log(valueArr);
-            render();
-        }
-    });
-    function render(){
-        var innerhtml =  valueArr.map(function(e,index){
-            if(valueArr.length > 0){
-                return "<button value="+index+" class='btn btn-default' " + "name = " + e + ">" + e + "</button>";
-            }
-        }).join('');
-        $("#selectHolder").html(innerhtml);
+    function setSelection(){
 
+        $("#setSelect").keyup(function(e){
+            if(e.keyCode == 13){
+                var selectValue = $("#setSelect").val().trim();
+                var arr = selectValue.split(/[^0-9a-zA-Z\u4e00-\u9fa5]+/);
+                valueArr = valueArr.concat(arr);
+                console.log(valueArr);
+                setSelectionButton();
+            }
+        });
+        function setSelectionButton(){
+            var innerhtml =  valueArr.map(function(e,index){
+                if(valueArr.length > 0){
+                    return "<button value="+index+" class='btn btn-default' " + "name = " + e + ">" + e + "</button>";
+                }
+            }).join('');
+            $("#selectHolder").html(innerhtml);
+
+        }
+        $("#selectHolder").delegate("button","click",function(){
+            $(this).remove();
+            valueArr.splice($(this).value,1);
+            console.log(valueArr);
+        });
+        $("#selectHolder").delegate("button","mouseover",function(){
+            $(this).attr("class","btn btn-danger");
+            $(this).text("删除");
+        });
+        $("#selectHolder").delegate("button","mouseleave",function(){
+            $(this).attr("class","btn btn-default");
+            $(this).text($(this).attr("name"));
+        });
     }
-    $("#selectHolder").delegate("button","click",function(){
-        $(this).remove();
-        valueArr.splice($(this).value,1);
-        console.log(valueArr);
-    });
-    $("#selectHolder").delegate("button","mouseover",function(){
-        $(this).attr("class","btn btn-danger");
-        $(this).text("删除");
-    });
-    $("#selectHolder").delegate("button","mouseleave",function(){
-        $(this).attr("class","btn btn-default");
-        $(this).text($(this).attr("name"));
-    });
 
     //生成表单
 
@@ -189,6 +191,7 @@
 
 
     }
+    //添加hover状态删除按钮
     function addDeleteIcon(node){
         var nodeHeight = parseInt(node.css("height"));
         node.css("backgroundColor","#eee");
@@ -209,7 +212,7 @@
         node.children(".delete").remove();
     }
 
-
+    //检测表单元素是否必填
     function isNecessary(){
         if($("#must").prop("checked")){
             return true;
@@ -217,53 +220,40 @@
         else
             return false;
     }
-   
+    //为不同的验证方式绑定事件
     function delegateEvent(node){
-
-
         if($("#cellphone").prop("checked")) {
-            //console.log("用户开启了检查手机号功能");
             checkCellPhoneNumber(node);
         }
-
         else if($("#mailbox").prop("checked")){
-            //console.log("用户开启了邮箱验证");
-            //showSuccess(node);
             checkMail(node);
 
         }
         else if($("#password").prop("checked")){
             checkLength(node);
-            //showSuccess(node);
-
-
         }
         if(isNecessary()){
-            // console.log("用户选择了必填按钮");
             showNecessary(node);
-
-
-
         }
-
-
-
         node.on("focus",function(){
             clearSpace(node);
         });
     }
+    //focues状态清空提示信息
     function clearSpace(node){
 
             node.parent().parent().attr("class","form-group");
             node.parent().children("span").remove();
 
     }
+    //验证成功状态
     function showSuccess(node){
         node.parent().parent().attr("class","form-group has-success has-feedback");
         node.after("<span class='sr-only'>(success)</span>").after("<span class='glyphicon glyphicon-ok form-control-feedback' ></span>");
 
 
     }
+    //检查文本是否为空
     function showNecessary(node){
         //console.log(node.nodeName);
         node.on("blur",function(){
@@ -276,6 +266,7 @@
 
         });
     }
+    //检查文本长度
     function checkLength(node){
         var min = $("#areaMin").val();
         var max = $("#areaMax").val();
@@ -298,6 +289,7 @@
 
 
     }
+    //检查手机号格式
     function checkCellPhoneNumber(node){
         var regCellNum = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
         node.blur(function(){
@@ -318,6 +310,7 @@
 
 
     }
+    //检查邮箱格式
     function checkMail(node){
         var regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
         node.blur(function(){
@@ -356,6 +349,7 @@
     $(".modal-footer button:last").click(function(){
         copyCode();
     });
+    //复制表单代码
     function copyCode(){
 
         var obj = document.querySelector('.modal-body');
@@ -372,5 +366,11 @@
         window.getSelection().removeAllRanges();
 
     }
+    //初始化表单,主函数
+    function renderForm(){
+        load();
+        setSelection();
+    }
+    renderForm();
 
 })();
