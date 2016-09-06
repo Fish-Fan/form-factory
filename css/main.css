@@ -1,0 +1,37 @@
+#edit-container,#view-container{
+    border: 1px solid #1b6d85;
+    border-radius: 10px;
+    padding-bottom: 50px;
+}
+#view-container h2{
+    text-align: center;
+    margin-bottom: 50px;
+
+}
+.bs{
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left: 5px solid #1b809e;
+    border-radius: 3px;
+}
+#setSelect{
+    margin-bottom: 20px;
+}
+#selection button{
+    margin-right: 10px;
+    margin-top: 10px;
+}
+.checkbox-div,.radio-div{
+    width: 100%;
+    margin-bottom: 15px;
+}
+.select-div,.textarea-div{
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+#createFormCode{
+    width: 300px;
+    margin: 20px auto;
+}

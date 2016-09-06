@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jQuery%201.9.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>表单工厂</title>
+</head>
+<body>
+<div class="modal fade" id="dialog" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">表单代码</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="copy success">Copy</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="container-fluid">
+        <div class="row">
+            <div id="edit-container" class="col-md-4">
+                <div class="bs" id="form-header">
+                    <h3>表头</h3>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="form-name-input" class="control-label col-xs-4">表单标题</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" id="form-name-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bs" id="type">
+                    <h3>类型</h3>
+                    <div class="form-horizontal">
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="inputK" value="1" name="class">
+                                输入框
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="radioK" value="1" name="class">
+                                单选框
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="checkboxK" value="1" name="class">
+                                多选框
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="selectK" value="1" name="class">
+                                下拉框
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="textareaK" value="1" name="class">
+                                文本域
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bs" id="config">
+                    <h3>配置</h3>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="form-name" class="col-xs-4 control-label">名称 :</label>
+                            <div class="col-xs-8">
+                                <input type="text" id="form-name" class="form-control" value="姓名">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Must" class="col-xs-4 control-label">是否必填 :</label>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" name="isMust" id="must"> 是
+                                    </label>
+                                </div>
+
+                               <div class="radio-inline">
+                                   <label>
+                                       <input type="radio" name="isMust" id="nonMust"> 否
+                                   </label>
+                               </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="bs" id="rule">
+                    <h3>规则</h3>
+                    <div class="form-horizontal">
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="text" name="rule" alt="text"> 文字
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="number" name="rule" alt="number"> 数字
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="mailbox" name="rule" alt="text"> 邮箱
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="cellphone" name="rule" alt="number"> 电话号码
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="col-xs-4 col-xs-offset-2">
+                                <input type="radio" id="password" name="rule" alt="password"> 密码
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bs" id="selection">
+                    <h3>选项</h3>
+                    <textarea id="setSelect" class="form-control" rows="3" placeholder="可用空格,逗号来分隔选项,按回车表示输入完毕。">北京 上海 天津</textarea>
+                    <div id="selectHolder">
+
+                    </div>
+                </div>
+
+                <div class="bs" id="setLength">
+                    <h3>长度限制</h3>
+                       <div class="form-horizontal">
+                           <label class="col-xs-4 control-label">字符范围 :
+                           </label>
+                          <div class="form-inline">
+
+                              <input type="number" class="form-control" style="width: 80px" id="areaMin">
+                              <span>-</span>
+                              <input type="number" class="form-control" style="width:80px" id="areaMax">
+
+                          </div>
+
+                       </div>
+                </div>
+                <button class="btn btn-primary" id="add">添加组件</button>
+                <button class="btn btn-success pull-right" id="finished">完成编辑</button>
+            </div>
+            <div id="view-container" class="col-md-8">
+                <div class="container" style="padding-top: 100px;width: auto">
+                    <form class="form-horizontal" role="form">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
